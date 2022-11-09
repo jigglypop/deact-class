@@ -68,7 +68,6 @@ export function rerender(fn, _id, isTop) {
   for (const id of children) {
     const component = componentStore.get(id);
     const j = component.jsx;
-    console.log(j);
     const jsxObj = rerender(component.fn, component.id, false);
     jsx = jsx.replace(j, jsxObj.jsx);
   }
@@ -102,10 +101,6 @@ export function init(...argument) {
   register(argument);
   // 렌더링
   document.getElementById("app").innerHTML = render(App, null).jsx;
-  // 리렌더링 실험
-  console.log("리렌더링");
-  // rerender(A, callStackStore.store[1]);
-  console.log(useEffectStore.store);
   // useEffect 실행
   runEffect();
 }

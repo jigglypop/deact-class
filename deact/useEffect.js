@@ -5,7 +5,7 @@ export function useEffect(f, value) {
   const callStack = callStackStore.get();
   const stack = callStack[callStack.length - 1];
   const id = stack[0];
-  // 이펙트
+  // 바뀌었으면 콜백 함수 글로벌에 push (렌더링 이후에 실행하기 위함)
   useEffectStore.set([id, goUseEffect.bind({ id, f, value })]);
 }
 
@@ -16,7 +16,6 @@ export function goUseEffect() {
   let changed = true;
   // value에서 변한 것이 있는지 찾음
   if (_value) changed = value.some((d, i) => d !== _value[i]);
-  // 바뀌었으면 콜백 함수 글로벌에 push (렌더링 이후에 실행하기 위함)
   if (changed) {
     f();
   }
