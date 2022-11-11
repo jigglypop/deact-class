@@ -1,0 +1,64 @@
+.LineInput {
+    position: relative;
+    font-weight: 800;
+    margin: 20px;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.LineInput label {
+    position: absolute;
+    top: 0px;
+    bottom: 5px;
+    left: 0px;
+    font-size: 14px;
+    color: var(--text);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.LineInput input {
+    border: 0;
+    border-bottom: 2px solid var(--grayB);
+    border-radius: 2px;
+    background: transparent;
+    margin: 10px;
+    width: 100%;
+    min-width: var(--input-width);
+    padding: 8px 0 8px 0;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--grayB);
+    transition: all 0.3s ease-in-out;
+}
+
+.LineInput input:focus {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--text);
+    border-radius: 2px;
+}
+
+.LineInput input:focus + label{
+    top: -12px;
+    font-size: 12px;
+    color: var(--text);
+}
+
+.LineInput.Hold input {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--text);
+    border-radius: 2px;
+}
+
+.LineInput.Hold label {
+    top: -12px;
+    font-size: 12px;
+    color: var(--text);
+}
