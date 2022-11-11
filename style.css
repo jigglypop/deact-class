@@ -22,12 +22,19 @@ header {
 
 .header {
   padding: 0px 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 
 .header_left {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .header_right {
+  display: flex;
+  justify-content: flex-end;
 }
 
 #page_content {
@@ -43,12 +50,20 @@ header {
   width: 80%;
   margin: 10px auto;
   padding: 10px 10px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   margin: 20px 10px;
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 240px;
   border-radius: 25px;
   transform-style: preserve-3d;
   transform-origin: center right;
@@ -64,19 +79,36 @@ header {
   width: 100%;
   height: 100%;
   border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-weight: 500;
-  font-size: 20px;
-  color: black;
+  font-weight: 700;
+  font-size: 40px;
   backface-visibility: hidden;
 }
 
 .card_plane--front {
-  background: #f2f2f2;
+  width: 200px;
+  height: 240px;
+  background: #0d0d0d;
+  color: white;
+}
+
+.card.is-flipped > .card_plane--front {
+  display: none;
 }
 
 .card_plane--back {
+  width: 200px;
+  height: 240px;
+  background: #f2f2f2;
+  color: #3098f2;
   transform: rotateY(180deg);
+  display: none;
+}
+.card.is-flipped > .card_plane--back {
+  display: flex;
 }
 
 /* 인사 정보 등록 페이지 */

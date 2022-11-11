@@ -20,11 +20,12 @@ export class Container {
   // dom 선택 시
   componentWillMount() {}
   // 컨스트럭터
-  constructor({ $target, className, storeNames, sementic, ID }) {
+  constructor({ $target, className, storeNames, sementic, ID, isNotOuter }) {
     this.$target = $target;
     this.className = className ?? null;
     this.ID = ID ? ID : this.ID;
     this.originID = ID;
+    this.isNotOuter = isNotOuter;
     this.sementic = sementic ? `<${sementic}></${sementic}>` : this.sementic;
     this.storeNames = (storeNames || []).forEach((name) =>
       store[name].subscribe(this.init.bind(this))
@@ -75,10 +76,10 @@ export class Container {
       $(`#temp-${id}`).get().remove();
       store.instance.setInstance(`${tag}-${id}`, instance);
     });
-
     // 어트리뷰트 올바르게 세팅
     // 클래스네임 없으면 삭제
     const $target = document.getElementById(this.ID);
+    // 아우터가 아닐때
     if (!this.className) $target.removeAttribute("class");
     // 아이디 바꿔주기
     if (this.originID) $target.id = this.originID;
@@ -113,13 +114,15 @@ export class Container {
     Object.keys(data).forEach((key) => {
       this.state[key] = data[key];
     });
-    this.$target.innerHTML = ``;
+    // this.$target.innerHTML = ``;
+    $(`#${this.ID}`).get().remove();
     this.Render();
     this.componentDidMount();
   }
 }
 
-export const init = () => {
+export function init() {
   const app = new App({ $target: $("body").get() });
-  store.instance.setInstance(`${app.ID}`, app);
-};
+  store.instance.setInstance(``, app);
+  $("body").get().removeAttribute("id");
+}

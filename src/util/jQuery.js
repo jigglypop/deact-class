@@ -1,4 +1,15 @@
-import { isOuter, isTag } from "./util.js";
+import { getRegex } from "./util.js";
+
+export const isTag = (text) => {
+  const Tag = "[a-zA-Z-0-9:s]";
+  const openTag = `<(${Tag})+>`;
+  return getRegex(`${openTag}`, text);
+};
+
+export const isOuter = (text) => {
+  const Tag = "[a-zA-Z-0-9:s]";
+  return getRegex(`<(${Tag})+>.*?</(${Tag})+>`, text);
+};
 
 export const $ = (element) => {
   let $El = null;
@@ -27,8 +38,7 @@ export const $ = (element) => {
       if ($El) {
         return $El;
       } else {
-        $El = document.createElement("div");
-        return $El;
+        return null;
       }
     },
     // css valuable 가져오기, 세팅하기(value를 넣으면 세팅함)

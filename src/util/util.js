@@ -2,70 +2,38 @@ import { store } from "../../main.js";
 import { change } from "../store/router/index.js";
 
 export const router = (path, name, id) => {
+  const { pathname } = window.location;
+  if (pathname === path + id) return;
   window.history.pushState(`${path}${id}`, name, `${path}${id}`);
   store.router.dispatch(change(path, id));
 };
-const getRegex = (tag, text) => {
+// regex 보일러플레이트
+export const getRegex = (tag, text) => {
   return text.match(new RegExp(tag, "g")) || [];
 };
-
 // 인자 찾기
 export const getParams = (text) => {
-  const datas = getRegex(':.*?=".*?"', text);
-  let _datas = {};
-  datas.map((item) => {
-    const [name, value] = item.replace(/(\"|:)/g, "").split("=");
-    _datas[name] = value;
-  });
-  return _datas;
+  return getRegex(':.*?=".*?"', text).reduce((result, cur) => {
+    const [name, value] = cur.replace(/(\"|:)/g, "").split("=");
+    result[name] = value;
+    return result;
+  }, {});
 };
 // 함수 찾기
 export const getFunctions = (text) => {
-  const datas = getRegex('@.*?=".*?"', text);
-  let _datas = {};
-  datas.map((item) => {
-    const [name, value] = item.replace(/(\"|@)/g, "").split("=");
-    _datas[name] = value;
-  });
-  return _datas;
+  return getRegex('@.*?=".*?"', text).reduce((result, cur) => {
+    const [name, value] = cur.replace(/(\"|@)/g, "").split("=");
+    result[name] = value;
+    return result;
+  }, {});
 };
-
-// 컴포넌트 인지
-export const isComponent = (text) => {
-  const openTag = "(<.*>)";
-  const jsxs = getRegex(`${openTag}`, text);
-  const jsxDatas = jsxs
-    ? jsxs.map((jsx) => {
-        return {
-          jsx: jsx,
-          params: getParams(jsx),
-        };
-      })
-    : null;
-  return jsxDatas;
-};
-// 컴포넌트 거르기
+// 컴포넌트 찾기
 export const getComponent = (text) => {
-  const openTag = "(<.*/>)";
-  return getRegex(`${openTag}`, text);
-};
-
-export const isTag = (text) => {
-  const Tag = "[a-zA-Z-0-9:s]";
-  const openTag = `<(${Tag})+>`;
-  return getRegex(`${openTag}`, text);
-};
-
-export const isOuter = (text) => {
-  const Tag = "[a-zA-Z-0-9:s]";
-  return getRegex(`<(${Tag})+>.*?</(${Tag})+>`, text);
+  return getRegex("(<[A-Z].*/>)", text);
 };
 // 태그 찾기
 export const getTag = (text) => {
-  const componentTag = "[A-Z]([a-zA-Z])*";
-  const regex = new RegExp(componentTag, "g");
-  const result = text.match(regex) || [""];
-  return result[0];
+  return (text.match(new RegExp("[A-Z]([a-zA-Z])*", "g")) || [""])[0];
 };
 // 캐시
 export const cache = {
