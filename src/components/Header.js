@@ -8,7 +8,6 @@ export default class Header extends Container {
 
   render() {
     return `      
-    
     <div class="header header_left">
         <span class="menu_name" id="menu_home">HOME</span>
       </div>
